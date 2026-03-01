@@ -23,7 +23,7 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100vw;
-  height: 7vh;
+  height: 4rem;
   background: #0f0f0f;
   padding: 1rem;
   margin: 0px;
