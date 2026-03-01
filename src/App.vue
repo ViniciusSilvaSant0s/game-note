@@ -3,7 +3,9 @@ import BaseHeader from './components/BaseHeader.vue';
 </script>
 
 <template>
-<BaseHeader/>
+<BaseHeader />
+
+<RouterView />
 </template>
 
 <style scoped>
