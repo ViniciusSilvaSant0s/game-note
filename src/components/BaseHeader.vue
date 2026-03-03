@@ -1,6 +1,13 @@
 <script setup>
 import BaseTitle from '@/components/BaseTitle.vue';
 import BaseButton from './BaseButton.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+const redirectToGameForm = () => {
+  router.replace('/game/create')
+}
 </script>
 
 <template>
@@ -10,7 +17,7 @@ import BaseButton from './BaseButton.vue';
   </div>
 
   <div>
-    <BaseButton variant="success">
+    <BaseButton variant="success" @click="redirectToGameForm">
       Adicionar Novo Jogo
     </BaseButton>
   </div>
