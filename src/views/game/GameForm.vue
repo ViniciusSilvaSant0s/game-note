@@ -4,6 +4,12 @@
 
 <template>
     <BaseContent>
-        <div>Funcionando</div>
+        <template #title>Nova Avaliação</template>
+
+        <template #body>
+            <form>
+                <input type="text">
+            </form>
+        </template>
     </BaseContent>
 </template>
