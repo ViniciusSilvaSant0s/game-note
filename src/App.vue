@@ -1,13 +1,11 @@
 <script setup>
-import BaseHeader from './components/BaseHeader.vue';
+import BaseHeader from './components/BaseHeader.vue'
 </script>
 
 <template>
-<BaseHeader />
+  <BaseHeader />
 
-<RouterView />
+  <RouterView />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

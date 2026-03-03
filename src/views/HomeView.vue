@@ -1,16 +1,13 @@
 <script setup>
-import BaseContent from '@/components/BaseContent.vue';
-import { ref } from 'vue';
+import BaseContent from '@/components/BaseContent.vue'
+import { ref } from 'vue'
 
-const games = ref([]);
-
+const games = ref([])
 </script>
 
 <template>
   <BaseContent>
-    <template #title>
-      Meus Jogos
-    </template>
+    <template #title> Meus Jogos </template>
 
     <template #body>
       <div v-if="games.length === 0" class="empty-state">
