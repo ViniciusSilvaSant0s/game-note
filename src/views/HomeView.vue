@@ -8,15 +8,16 @@ const games = ref([]);
 
 <template>
   <BaseContent>
-    <div class="header-view">
-      <h1 class="title">Meus Jogos</h1>
-      <div class="diviser"></div>
-    </div>
+    <template #title>
+      Meus Jogos
+    </template>
 
-    <div v-if="games.length === 0" class="empty-state">
-      <img src="@/assets/icons/empty-state.svg" alt="Logo" class="empty-state-icon" />
-      <p>Nenhum jogo cadastrado.</p>
-    </div>
+    <template #body>
+      <div v-if="games.length === 0" class="empty-state">
+        <img src="@/assets/icons/empty-state.svg" alt="Logo" class="empty-state-icon" />
+        <p>Nenhum jogo cadastrado.</p>
+      </div>
+    </template>
   </BaseContent>
 </template>
 
