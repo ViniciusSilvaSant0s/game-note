@@ -11,7 +11,7 @@
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1.25rem;
-  width: 100%;
+  width: auto;
 }
 
 /* Estilizando Labels passadas no slot - Cor clara para leitura no fundo escuro */
@@ -50,22 +50,6 @@
   color: #6b7280;
 }
 
-/* Efeito Hover (passar o mouse) */
-.form-field :deep(input:hover:not([type='checkbox']):not([type='radio'])),
-.form-field :deep(select:hover),
-.form-field :deep(textarea:hover) {
-  border-color: #4b5563; /* Clareia a borda levemente no hover */
-}
-
-/* Efeito Focus (quando clica para digitar) - Usando sua cor Primary */
-.form-field :deep(input:focus:not([type='checkbox']):not([type='radio'])),
-.form-field :deep(select:focus),
-.form-field :deep(textarea:focus) {
-  border-color: #1e40af; /* Seu Azul Marinho Profundo */
-  background-color: #111827; /* Escurece um pouquinho o fundo ao focar */
-  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.4); /* Anel luminoso com a sua cor primary */
-}
-
 /* Inputs desabilitados */
 .form-field :deep(input:disabled),
 .form-field :deep(select:disabled),
@@ -93,5 +77,52 @@
   height: 1.25rem;
   accent-color: #1e40af; /* Azul Marinho Profundo */
   margin: 0;
+}
+
+/* Estilizando o Checkbox Customizado para Dark Theme */
+.form-field :deep(input[type='checkbox']) {
+  appearance: none; /* Remove o estilo padrão do Windows/Chrome/Safari */
+  -webkit-appearance: none;
+
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #1f2937; /* Fundo escuro igual aos seus outros inputs */
+  border: 1px solid #374151; /* Borda sutil */
+  border-radius: 4px; /* Leve arredondamento */
+  cursor: pointer;
+  display: grid;
+  place-content: center; /* Centraliza o ícone de check que vamos criar */
+  transition: all 0.2s ease;
+  margin: 0;
+}
+
+/* Criando o ícone de "Check" (a marca de verificado) */
+.form-field :deep(input[type='checkbox']::before) {
+  content: '';
+  width: 0.65rem;
+  height: 0.65rem;
+  transform: scale(0); /* Escondido por padrão */
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #ffffff; /* Cor da marca de check (Branco) */
+
+  /* Esse clip-path desenha o formato do check ✓ */
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+/* Estado: Marcado (True) */
+.form-field :deep(input[type='checkbox']:checked) {
+  background-color: #1e40af; /* Seu Azul Marinho Profundo */
+  border-color: #1e40af;
+}
+
+/* Mostra o ícone de check quando marcado */
+.form-field :deep(input[type='checkbox']:checked::before) {
+  transform: scale(1);
+}
+
+/* Efeito de Focus para acessibilidade */
+.form-field :deep(input[type='checkbox']:focus) {
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.4);
+  outline: none;
 }
 </style>
