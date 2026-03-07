@@ -1,23 +1,26 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-// Permite usar o v-model no componente pai
 const props = defineProps({
   modelValue: {
     type: Number,
-    default: 0
-  }
-});
+    default: 0,
+  },
+  // Nova prop adicionada para controlar o modo de exibição
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
+const hoverValue = ref(0)
 
-// Controla as estrelas acesas durante o "hover" do mouse
-const hoverValue = ref(0);
-
-// Atualiza o valor real ao clicar
 const setRating = (value) => {
-  emit('update:modelValue', value);
-};
+  // Uma trava de segurança extra, caso o usuário tente forçar o clique
+  if (props.readonly) return
+  emit('update:modelValue', value)
+}
 </script>
 
 <template>
@@ -27,17 +30,21 @@ const setRating = (value) => {
       :key="star"
       type="button"
       class="star-btn"
-      @mouseover="hoverValue = star"
+      :class="{ 'is-readonly': readonly }"
+      :disabled="readonly"
+      @mouseover="!readonly && (hoverValue = star)"
       @click="setRating(star)"
       :aria-label="`Avaliar com ${star} de 5 estrelas`"
     >
-      <svg 
-        class="star-icon" 
+      <svg
+        class="star-icon"
         :class="{ 'is-active': star <= (hoverValue || modelValue) }"
-        viewBox="0 0 24 24" 
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+        />
       </svg>
     </button>
   </div>
@@ -51,7 +58,6 @@ const setRating = (value) => {
   gap: 0.25rem;
 }
 
-/* Resetando o estilo padrão do botão */
 .star-btn {
   background: none;
   border: none;
@@ -65,32 +71,32 @@ const setRating = (value) => {
   transition: transform 0.2s ease;
 }
 
-/* Efeito de clique (Acessibilidade e Feedback) */
 .star-btn:focus-visible {
-  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.6); /* O mesmo azul marinho do seu projeto */
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.6);
 }
 
-/* Leve aumento ao passar o mouse */
-.star-btn:hover {
+/* O efeito de hover SÓ acontece se o botão não tiver a classe is-readonly */
+.star-btn:not(.is-readonly):hover {
   transform: scale(1.15);
 }
 
-/* Estilo Base da Estrela (Vazia / Desligada) */
+/* Quando estiver no modo amostra, tiramos o cursor de "clicável" */
+.star-btn.is-readonly {
+  cursor: default;
+}
+
 .star-icon {
-  width: 2rem; /* Tamanho da estrela */
+  width: 2rem;
   height: 2rem;
-  fill: #1f2937; /* Fundo interno escuro, igual aos seus inputs */
-  stroke: #374151; /* Borda sutil, igual aos seus inputs */
+  fill: #1f2937;
+  stroke: #374151;
   stroke-width: 1.5;
   stroke-linejoin: round;
   transition: all 0.2s ease-in-out;
 }
 
-/* Estilo da Estrela (Preenchida / Ligada) */
 .star-icon.is-active {
-  /* Usei um Amarelo/Dourado padrão para estrelas, mas você pode 
-     trocar por #1e40af (Seu Azul Marinho) se preferir algo monocromático */
-  fill: #fbbf24; 
+  fill: #fbbf24;
   stroke: #fbbf24;
 }
 </style>
