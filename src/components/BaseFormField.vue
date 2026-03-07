@@ -125,4 +125,51 @@
   box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.4);
   outline: none;
 }
+
+/* RADIO BUTTON */
+
+/* Reset e Estilo da Base do Radio (Fundo Escuro) */
+.form-field :deep(input[type='radio']) {
+  appearance: none; /* Remove o estilo padrão branco do navegador */
+  -webkit-appearance: none;
+
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #1f2937; /* Fundo escuro igual ao Checkbox */
+  border: 1px solid #374151;
+  border-radius: 50%; /* Garante que seja um círculo perfeito */
+  cursor: pointer;
+  display: grid;
+  place-content: center; /* Centraliza a bolinha interna */
+  transition: all 0.2s ease;
+  margin: 0;
+}
+
+/* Criando a "Bolinha" interna do Radio */
+.form-field :deep(input[type='radio']::before) {
+  content: '';
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%; /* A marca interna também é um círculo */
+  transform: scale(0); /* Escondida por padrão */
+  transition: 120ms transform ease-in-out;
+  background-color: #ffffff; /* Cor da bolinha quando marcado */
+}
+
+/* Estado: Marcado (True) */
+.form-field :deep(input[type='radio']:checked) {
+  background-color: #1e40af; /* Fundo azul quando selecionado */
+  border-color: #1e40af;
+}
+
+/* Mostra a bolinha interna quando marcado */
+.form-field :deep(input[type='radio']:checked::before) {
+  transform: scale(1);
+}
+
+/* Efeito de Focus (Acessibilidade) */
+.form-field :deep(input[type='radio']:focus) {
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.4);
+  outline: none;
+}
 </style>
