@@ -1,19 +1,51 @@
 <script setup>
-import BaseButton from '@/components/BaseButton.vue';
+import BaseButton from '@/components/BaseButton.vue'
 import BaseContent from '@/components/BaseContent.vue'
 import BaseFormField from '@/components/BaseFormField.vue'
 import BaseStarRating from '@/components/BaseStarRating.vue'
-import { ref } from 'vue';
+import { useReviewStore } from '@/stores/useReviewStore'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const reviewStore = useReviewStore()
+const router = useRouter()
+
+const mandatoryFields = ['name', 'experience']
 
 const form = ref({
   ratingScore: 0,
   experience: null,
   name: null,
-  description: null
+  description: null,
 })
 
-const save = () => {
-  // save rating
+const submitForm = () => {
+  const formValues = form.value
+  let validForm = true
+  mandatoryFields.forEach((field) => {
+    if (!formValues[field]) {
+      validForm = false
+      if (field !== 'experience') {
+        const translatedField = translateField(field)
+        alert(`${translatedField} deve ser preenchido(a)`)
+      } else {
+        alert(`Deve ser preenchido um dos campos: Zerado, Jogando, Dropado ou Pretende Jogar`)
+      }
+    }
+  })
+
+  if (validForm) {
+    reviewStore.addReview({ ...form.value })
+    router.replace('/')
+    alert('Avaliação enviada com sucesso!')
+  }
+}
+
+const translateField = (englishField) => {
+  switch (englishField) {
+    case 'name':
+      return 'Nome'
+  }
 }
 
 //const ratingScore = ref(1)
@@ -24,7 +56,7 @@ const save = () => {
     <template #title>Nova Avaliação</template>
 
     <template #body>
-      <form class="form grid-area">
+      <form class="form grid-area" @submit.prevent="submitForm">
         <BaseFormField class="item rating">
           <label>Sua Nota</label>
           <BaseStarRating v-model="form.ratingScore" />
@@ -58,10 +90,14 @@ const save = () => {
           <textarea name="description" rows="5" cols="50" v-model="form.description"></textarea>
         </BaseFormField>
 
-        <div class="save-button" @click="save">
-          <BaseButton class="internal-button">Salvar</BaseButton>
-        </div>        
+        <div class="save-button">
+          <BaseButton type="submit" class="internal-button">Salvar</BaseButton>
+        </div>
       </form>
+
+      <!-- <div class="save-button">
+        <BaseButton type="submit" class="internal-button">Salvar</BaseButton>
+      </div> -->
     </template>
   </BaseContent>
 </template>
@@ -84,7 +120,7 @@ const save = () => {
 }
 
 .radio-group {
-  grid-area: radio-group
+  grid-area: radio-group;
 }
 
 .radios {
@@ -107,7 +143,7 @@ const save = () => {
   margin: 30px;
   grid-area: save-button;
   display: flex;
-  flex-direction: row ;
+  flex-direction: row;
   justify-content: center !important;
 }
 
@@ -124,6 +160,4 @@ const save = () => {
     'description'
     'save-button';
 }
-
-
 </style>
